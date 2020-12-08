@@ -21,7 +21,7 @@ let bags =
       Content = 
         matches 
         |> Seq.tail
-        |> Seq.map(fun e -> e.Substring(2).Trim(), int(e.[0]))
+        |> Seq.map(fun e -> e.Substring(2).Trim(), int(e.[0].ToString()))
         |> Seq.toList })
 
 let getBag color = 
@@ -50,11 +50,12 @@ printf "Answer to part 1: %i \n" ``bags that can hold shiny gold``
 
 let rec countContainedBags bag : int =
   bag.Content
-  |> List.sumBy(fun (color, count) -> count + countContainedBags (getBag color) * count)
+  |> List.sumBy(fun (color, count) -> count + (countContainedBags (getBag color) * count))
   
 let shinyGold = 
   bags
   |> List.filter(fun b -> b.Color = "shiny gold")
   |> List.exactlyOne
 
-printf "Answer to part 2: %i \n" countContainedBags shinyGold
+
+printf "Answer to part 2: %i \n" (countContainedBags shinyGold)
